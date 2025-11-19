@@ -127,7 +127,11 @@ export const AdminUsers = () => {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       <div className="w-full px-6 py-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6">Gestione Utenti</h1>
+        <h1 className="text-4xl font-extrabold mb-6">
+          <span className="bg-gradient-to-r from-pink-600 via-pink-500 to-rose-500 bg-clip-text text-transparent">
+            Gestione Utenti
+          </span>
+        </h1>
 
         <div className="mb-6">
           <div className="relative">

@@ -185,7 +185,11 @@ export const AdminBooks = () => {
       <Navbar />
       <div className="w-full px-6 py-8">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-800">Gestione Libri</h1>
+          <h1 className="text-4xl font-extrabold">
+            <span className="bg-gradient-to-r from-violet-600 via-purple-500 to-violet-700 bg-clip-text text-transparent">
+              Gestione Libri
+            </span>
+          </h1>
           <div className="flex gap-3">
             <button
               onClick={() => navigate('/admin/import-books')}

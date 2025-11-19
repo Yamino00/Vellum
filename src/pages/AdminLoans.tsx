@@ -112,7 +112,11 @@ export const AdminLoans = () => {
       <Navbar />
       <div className="w-full px-6 py-8">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-800">Gestione Prestiti</h1>
+          <h1 className="text-4xl font-extrabold">
+            <span className="bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 bg-clip-text text-transparent">
+              Gestione Prestiti
+            </span>
+          </h1>
           <button
             onClick={() => setIsModalOpen(true)}
             className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2"
