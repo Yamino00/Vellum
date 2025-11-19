@@ -1,7 +1,5 @@
 import { supabase } from '../lib/supabase';
 
-const DEEPL_API_KEY = import.meta.env.VITE_DEEPL_API_KEY;
-
 export const translateToItalian = async (text: string): Promise<string> => {
   if (!text || text.trim() === '') {
     return '';
