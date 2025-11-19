@@ -4,6 +4,8 @@ import { useAuth } from './hooks/useAuth';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
+import { AuthCallback } from './pages/AuthCallback';
+import { CompleteProfile } from './pages/CompleteProfile';
 import { ClientHome } from './pages/ClientHome';
 import { ClientLoans } from './pages/ClientLoans';
 import { AdminDashboard } from './pages/AdminDashboard';
@@ -28,6 +30,15 @@ function AppRoutes() {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/auth/callback" element={<AuthCallback />} />
+      <Route
+        path="/complete-profile"
+        element={
+          <ProtectedRoute>
+            <CompleteProfile />
+          </ProtectedRoute>
+        }
+      />
       
       <Route
         path="/"

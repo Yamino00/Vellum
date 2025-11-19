@@ -11,6 +11,7 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string, userData: Partial<User>) => Promise<void>;
   signOut: () => Promise<void>;
+  reloadProfile: () => Promise<void>;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -129,8 +130,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (error) throw error;
   };
 
+  const reloadProfile = async () => {
+    if (user) {
+      await loadUserProfile(user.id);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, userProfile, loading, signIn, signUp, signOut }}>
+    <AuthContext.Provider value={{ user, userProfile, loading, signIn, signUp, signOut, reloadProfile }}>
       {children}
     </AuthContext.Provider>
   );

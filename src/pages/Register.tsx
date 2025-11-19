@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { supabase } from '../lib/supabase';
 import LiquidEther from '../components/LiquidEther';
+import { FcGoogle } from 'react-icons/fc';
 
 export const Register = () => {
   const [formData, setFormData] = useState({
@@ -58,6 +60,32 @@ export const Register = () => {
     });
   };
 
+  const handleGoogleSignUp = async () => {
+    setError('');
+    setLoading(true);
+
+    try {
+      const redirectUrl = `${window.location.origin}/auth/callback`;
+      console.log('Google OAuth redirect URL:', redirectUrl);
+      
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: redirectUrl,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          }
+        }
+      });
+
+      if (error) throw error;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Errore durante la registrazione con Google');
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12 relative">
       <div className="fixed inset-0 -z-10">
@@ -81,7 +109,7 @@ export const Register = () => {
         </div>
 
         <h1 className="text-4xl font-extrabold text-center mb-2">
-          <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-blue-600 via-blue-500 to-blue-700 bg-clip-text text-transparent">
             Vellum
           </span>
         </h1>
@@ -230,6 +258,25 @@ export const Register = () => {
             ) : (
               'Registrati'
             )}
+          </button>
+
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white text-gray-500">Oppure</span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleGoogleSignUp}
+            disabled={loading}
+            className="w-full py-3 px-4 border border-gray-300 rounded-lg font-semibold text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-3"
+          >
+            <FcGoogle className="text-2xl" />
+            Registrati con Google
           </button>
         </form>
 
