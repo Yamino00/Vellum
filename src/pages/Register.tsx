@@ -69,15 +69,17 @@ export const Register = () => {
       <div className="card max-w-2xl w-full p-8 animate-scale-in">
         <div className="flex items-center justify-center mb-6">
           <div className="relative">
-            <div className="absolute inset-0 bg-linear-to-br from-blue-600 to-violet-600 rounded-2xl blur-lg opacity-50 animate-pulse"></div>
-            <div className="relative p-4 bg-linear-to-br from-blue-600 to-violet-600 rounded-2xl shadow-lg">
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl blur-lg opacity-50 animate-pulse"></div>
+            <div className="relative p-4 bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl shadow-lg">
               <FiBook className="text-4xl text-white" />
             </div>
           </div>
         </div>
 
-        <h1 className="text-3xl font-bold text-center text-gradient mb-2">
-          MyLibrary
+        <h1 className="text-4xl font-extrabold text-center mb-2">
+          <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 bg-clip-text text-transparent">
+            Vellum
+          </span>
         </h1>
         <p className="text-center text-gray-600 mb-6">Crea il tuo account</p>
 

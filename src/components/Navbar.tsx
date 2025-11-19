@@ -17,18 +17,20 @@ export const Navbar = () => {
 
   return (
     <nav className="glass sticky top-0 z-50 border-b border-white/20">
-      <div className="container mx-auto px-4">
+      <div className={userProfile?.is_admin ? "w-full px-6" : "container mx-auto px-4"}>
         <div className="flex items-center justify-between h-16">
-          <Link to="/" className="text-xl font-bold flex items-center gap-2 text-gradient hover:scale-105 transition-transform">
+          <Link to="/" className="text-2xl font-bold flex items-center gap-3 hover:scale-105 transition-transform">
             <img 
               src="/Gestionale Libreria logo.png" 
-              alt="MyLibrary Logo" 
-              className="w-10 h-10 object-contain"
+              alt="Vellum Logo" 
+              className="w-12 h-12 object-contain"
             />
-            MyLibrary
+            <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 bg-clip-text text-transparent font-extrabold tracking-tight">
+              Vellum
+            </span>
           </Link>
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4">
             {userProfile?.is_admin ? (
               <>
                 <Link to="/admin" className="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/50 transition-all">
@@ -65,7 +67,7 @@ export const Navbar = () => {
               </>
             )}
 
-            <div className="flex items-center gap-4 border-l border-gray-300 pl-4 ml-2">
+            <div className="flex items-center gap-3 border-l border-gray-300 pl-4 ml-2">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-full bg-linear-to-br from-blue-500 to-violet-500 flex items-center justify-center text-white font-semibold text-sm shadow-lg">
                   {userProfile?.nome?.[0]}{userProfile?.cognome?.[0]}
