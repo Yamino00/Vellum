@@ -132,7 +132,7 @@ export const AdminStats = () => {
     return (
       <div className="min-h-screen bg-gray-50">
         <Navbar />
-        <div className="container mx-auto px-4 py-8">
+        <div className="w-full px-6 py-8">
           <p>Caricamento statistiche...</p>
         </div>
       </div>
@@ -142,7 +142,7 @@ export const AdminStats = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
-      <div className="container mx-auto px-4 py-8">
+      <div className="w-full px-6 py-8">
         <h1 className="text-3xl font-bold text-gray-800 mb-8">Statistiche e Dashboard</h1>
 
         {/* Summary Cards */}

@@ -42,7 +42,7 @@ export const AdminDashboard = () => {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <div className="container mx-auto px-4 py-8">
+      <div className="w-full px-6 py-8">
         <div className="mb-8 animate-slide-down">
           <h1 className="text-4xl font-bold text-gradient mb-2">Dashboard Admin</h1>
           <p className="text-gray-600">Panoramica generale del sistema</p>

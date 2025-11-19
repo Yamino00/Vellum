@@ -20,9 +20,11 @@ export const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="text-xl font-bold flex items-center gap-2 text-gradient hover:scale-105 transition-transform">
-            <div className="p-2 bg-linear-to-br from-blue-600 to-violet-600 rounded-lg shadow-lg">
-              <FiBook className="text-2xl text-white" />
-            </div>
+            <img 
+              src="/Gestionale Libreria logo.png" 
+              alt="MyLibrary Logo" 
+              className="w-10 h-10 object-contain"
+            />
             MyLibrary
           </Link>
 

@@ -173,7 +173,7 @@ export const AdminBooks = () => {
     return (
       <div className="min-h-screen bg-gray-50">
         <Navbar />
-        <div className="container mx-auto px-4 py-8">
+        <div className="w-full px-6 py-8">
           <p>Caricamento...</p>
         </div>
       </div>
@@ -183,7 +183,7 @@ export const AdminBooks = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
-      <div className="container mx-auto px-4 py-8">
+      <div className="w-full px-6 py-8">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800">Gestione Libri</h1>
           <div className="flex gap-3">
