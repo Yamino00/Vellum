@@ -76,7 +76,7 @@ export const ClientHome = () => {
     return matchesSearch && matchesGenre;
   });
 
-  const handleMenuItemClick = (item: MenuItem, index: number) => {
+  const handleMenuItemClick = (_item: MenuItem, index: number) => {
     const book = filteredBooks[index % filteredBooks.length];
     setSelectedBook(book);
     setShowModal(true);
