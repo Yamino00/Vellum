@@ -16,6 +16,8 @@ export interface Book {
   anno: number;
   genere: string;
   isbn: string;
+  descrizione?: string | null;
+  cover_url?: string | null;
   disponibile: boolean;
   created_at?: string;
 }

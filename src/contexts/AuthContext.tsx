@@ -50,6 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const loadUserProfile = async (userId: string) => {
     try {
+      // Forza il ricaricamento dal database (no cache)
       const { data, error } = await supabase
         .from('utenti')
         .select('*')
@@ -58,6 +59,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (error) throw error;
       setUserProfile(data);
+      
+      // Debug: mostra il profilo caricato
+      console.log('Profilo utente caricato:', data);
     } catch (error) {
       console.error('Error loading user profile:', error);
     } finally {
@@ -68,24 +72,42 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signIn = async (email: string, password: string) => {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
+    // Il profilo verrà caricato automaticamente dal listener onAuthStateChange
   };
 
   const signUp = async (email: string, password: string, userData: Partial<User>) => {
+    // Registra l'utente con i metadati
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          nome: userData.nome,
+          cognome: userData.cognome,
+          genere: userData.genere,
+          eta: userData.eta,
+        },
+      },
     });
 
     if (authError) throw authError;
 
     if (authData.user) {
+      // Inserisci direttamente nella tabella utenti (il trigger potrebbe non attivarsi subito)
       const { error: profileError } = await supabase.from('utenti').insert({
         id: authData.user.id,
         email,
-        ...userData,
+        nome: userData.nome || 'Nome',
+        cognome: userData.cognome || 'Cognome',
+        genere: userData.genere || 'Altro',
+        eta: userData.eta || 18,
+        is_admin: userData.is_admin || false,
       });
 
-      if (profileError) throw profileError;
+      if (profileError) {
+        // Se l'inserimento fallisce (es. già esistente per via del trigger), ignora l'errore
+        console.log('Profile insert handled by trigger or already exists:', profileError.message);
+      }
     }
   };
 

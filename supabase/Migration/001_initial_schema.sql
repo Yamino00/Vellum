@@ -20,6 +20,8 @@ CREATE TABLE libri (
   anno INTEGER CHECK (anno > 1000 AND anno <= EXTRACT(YEAR FROM NOW())),
   genere VARCHAR(100) NOT NULL,
   isbn VARCHAR(20) UNIQUE NOT NULL,
+  descrizione TEXT,
+  cover_url TEXT,
   disponibile BOOLEAN DEFAULT TRUE,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );

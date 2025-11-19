@@ -10,6 +10,7 @@ import { AdminBooks } from './pages/AdminBooks';
 import { AdminUsers } from './pages/AdminUsers';
 import { AdminLoans } from './pages/AdminLoans';
 import { AdminStats } from './pages/AdminStats';
+import AdminImportBooks from './pages/AdminImportBooks';
 
 function AppRoutes() {
   const { userProfile, loading } = useAuth();
@@ -50,6 +51,15 @@ function AppRoutes() {
         element={
           <ProtectedRoute adminOnly>
             <AdminBooks />
+          </ProtectedRoute>
+        }
+      />
+      
+      <Route
+        path="/admin/import-books"
+        element={
+          <ProtectedRoute adminOnly>
+            <AdminImportBooks />
           </ProtectedRoute>
         }
       />

@@ -73,37 +73,52 @@ export const ClientHome = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen">
         <Navbar />
         <div className="container mx-auto px-4 py-8">
-          <p>Caricamento...</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="card animate-pulse">
+                <div className="skeleton h-64 w-full"></div>
+                <div className="p-4 space-y-3">
+                  <div className="skeleton h-6 w-3/4"></div>
+                  <div className="skeleton h-4 w-1/2"></div>
+                  <div className="skeleton h-4 w-full"></div>
+                  <div className="skeleton h-10 w-full"></div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       <Navbar />
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6">Catalogo Libri</h1>
+        <div className="mb-8 animate-slide-down">
+          <h1 className="text-4xl font-bold text-gradient mb-2">Catalogo Libri</h1>
+          <p className="text-gray-600">Esplora la nostra collezione e trova il tuo prossimo libro</p>
+        </div>
 
-        <div className="mb-6 flex gap-4">
+        <div className="mb-8 flex flex-col md:flex-row gap-4 animate-fade-in">
           <div className="relative flex-1">
-            <FiSearch className="absolute left-3 top-3 text-gray-400" />
+            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl" />
             <input
               type="text"
               placeholder="Cerca per titolo o autore..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="input pl-12"
             />
           </div>
 
           <select
             value={selectedGenre}
             onChange={(e) => setSelectedGenre(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="input md:w-64"
           >
             <option value="">Tutti i generi</option>
             {genres.map((genre) => (
@@ -115,60 +130,85 @@ export const ClientHome = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredBooks.map((book) => (
+          {filteredBooks.map((book, index) => (
             <div
               key={book.id}
-              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+              className="card-hover animate-fade-in"
+              style={{ animationDelay: `${index * 0.05}s` }}
             >
-              <div className="bg-gradient-to-br from-blue-500 to-purple-600 h-48 flex items-center justify-center">
-                <FiBook className="text-white text-6xl" />
-              </div>
+              {book.cover_url ? (
+                <div className="relative overflow-hidden group">
+                  <img
+                    src={book.cover_url}
+                    alt={book.titolo}
+                    className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+              ) : (
+                <div className="gradient-animate h-64 flex items-center justify-center">
+                  <FiBook className="text-white text-6xl opacity-80" />
+                </div>
+              )}
 
               <div className="p-4">
-                <h3 className="text-lg font-semibold text-gray-900 mb-1 line-clamp-2">
+                <h3 className="text-lg font-bold text-gray-900 mb-1 line-clamp-2 hover:text-blue-600 transition-colors">
                   {book.titolo}
                 </h3>
-                <p className="text-sm text-gray-600 mb-2">{book.autore}</p>
+                <p className="text-sm text-gray-600 mb-2 font-medium">{book.autore}</p>
 
-                <div className="flex items-center justify-between text-sm text-gray-500 mb-3">
-                  <span>{book.anno}</span>
-                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">
+                {book.descrizione && (
+                  <p className="text-xs text-gray-500 mb-3 line-clamp-3 leading-relaxed">
+                    {book.descrizione}
+                  </p>
+                )}
+
+                <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                  <span className="font-medium">{book.anno}</span>
+                  <span className="badge-primary">
                     {book.genere}
                   </span>
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <span
-                    className={`text-xs font-medium ${
-                      book.disponibile ? 'text-green-600' : 'text-red-600'
-                    }`}
-                  >
-                    {book.disponibile ? 'Disponibile' : 'Non disponibile'}
-                  </span>
+                <div className="flex items-center justify-between gap-2">
+                  {book.disponibile ? (
+                    <span className="badge-success flex items-center gap-1">
+                      <span className="w-2 h-2 bg-green-600 rounded-full animate-pulse"></span>
+                      Disponibile
+                    </span>
+                  ) : (
+                    <span className="badge-danger flex items-center gap-1">
+                      <span className="w-2 h-2 bg-red-600 rounded-full"></span>
+                      Non disponibile
+                    </span>
+                  )}
 
                   <button
                     onClick={() => handleRequestLoan(book.id)}
                     disabled={!book.disponibile}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium ${
+                    className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                       book.disponibile
-                        ? 'bg-blue-600 text-white hover:bg-blue-700'
-                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        ? 'bg-linear-to-r from-blue-600 to-violet-600 text-white hover:shadow-glow hover:scale-105'
+                        : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                     }`}
                   >
                     {book.disponibile ? 'Prendi in prestito' : 'Non disponibile'}
                   </button>
                 </div>
 
-                <p className="text-xs text-gray-400 mt-2">ISBN: {book.isbn}</p>
+                <p className="text-xs text-gray-400 mt-3 font-mono">ISBN: {book.isbn}</p>
               </div>
             </div>
           ))}
         </div>
 
         {filteredBooks.length === 0 && (
-          <div className="text-center py-12 text-gray-500">
-            <FiBook className="text-6xl mx-auto mb-4 opacity-50" />
-            <p>Nessun libro trovato</p>
+          <div className="text-center py-20 animate-fade-in">
+            <div className="inline-block p-6 bg-white/80 backdrop-blur-sm rounded-full shadow-soft mb-4">
+              <FiBook className="text-6xl text-gray-300" />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-700 mb-2">Nessun libro trovato</h3>
+            <p className="text-gray-500">Prova a modificare i filtri di ricerca</p>
           </div>
         )}
       </div>

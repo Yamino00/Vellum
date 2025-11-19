@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { supabase } from '../lib/supabase';
 import type { Book } from '../types';
-import { FiEdit2, FiTrash2, FiPlus, FiSearch } from 'react-icons/fi';
+import { FiEdit2, FiTrash2, FiPlus, FiSearch, FiDownload } from 'react-icons/fi';
 
 export const AdminBooks = () => {
+  const navigate = useNavigate();
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -131,12 +133,20 @@ export const AdminBooks = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800">Gestione Libri</h1>
-          <button
-            onClick={openAddModal}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2"
-          >
-            <FiPlus /> Aggiungi Libro
-          </button>
+          <div className="flex gap-3">
+            <button
+              onClick={() => navigate('/admin/import-books')}
+              className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center gap-2"
+            >
+              <FiDownload /> Importa da Open Library
+            </button>
+            <button
+              onClick={openAddModal}
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2"
+            >
+              <FiPlus /> Aggiungi Libro
+            </button>
+          </div>
         </div>
 
         <div className="mb-6">
