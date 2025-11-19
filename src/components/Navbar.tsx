@@ -33,25 +33,25 @@ export const Navbar = () => {
           <div className="flex items-center gap-4">
             {userProfile?.is_admin ? (
               <>
-                <Link to="/admin" className="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/50 transition-all">
+                <Link to="/admin" className="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-blue-100 transition-all duration-200">
                   <FiHome className="text-blue-600 group-hover:scale-110 transition-transform" />
-                  <span className="text-gray-700 font-medium">Dashboard</span>
+                  <span className="text-gray-700 font-medium group-hover:text-blue-700">Dashboard</span>
                 </Link>
-                <Link to="/admin/books" className="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/50 transition-all">
+                <Link to="/admin/books" className="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-violet-100 transition-all duration-200">
                   <FiBook className="text-violet-600 group-hover:scale-110 transition-transform" />
-                  <span className="text-gray-700 font-medium">Libri</span>
+                  <span className="text-gray-700 font-medium group-hover:text-violet-700">Libri</span>
                 </Link>
-                <Link to="/admin/users" className="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/50 transition-all">
+                <Link to="/admin/users" className="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-pink-100 transition-all duration-200">
                   <FiUsers className="text-pink-600 group-hover:scale-110 transition-transform" />
-                  <span className="text-gray-700 font-medium">Utenti</span>
+                  <span className="text-gray-700 font-medium group-hover:text-pink-700">Utenti</span>
                 </Link>
-                <Link to="/admin/loans" className="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/50 transition-all">
+                <Link to="/admin/loans" className="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-orange-100 transition-all duration-200">
                   <FiClipboard className="text-orange-600 group-hover:scale-110 transition-transform" />
-                  <span className="text-gray-700 font-medium">Prestiti</span>
+                  <span className="text-gray-700 font-medium group-hover:text-orange-700">Prestiti</span>
                 </Link>
-                <Link to="/admin/stats" className="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/50 transition-all">
+                <Link to="/admin/stats" className="group flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-green-100 transition-all duration-200">
                   <FiBarChart2 className="text-green-600 group-hover:scale-110 transition-transform" />
-                  <span className="text-gray-700 font-medium">Statistiche</span>
+                  <span className="text-gray-700 font-medium group-hover:text-green-700">Statistiche</span>
                 </Link>
               </>
             ) : (

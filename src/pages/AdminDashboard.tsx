@@ -44,7 +44,11 @@ export const AdminDashboard = () => {
       <Navbar />
       <div className="w-full px-6 py-8">
         <div className="mb-8 animate-slide-down">
-          <h1 className="text-4xl font-bold text-gradient mb-2">Dashboard Admin</h1>
+          <h1 className="text-4xl font-extrabold mb-2">
+            <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 bg-clip-text text-transparent">
+              Dashboard Admin
+            </span>
+          </h1>
           <p className="text-gray-600">Panoramica generale del sistema</p>
         </div>
 

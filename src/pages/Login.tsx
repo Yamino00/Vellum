@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { FiBook } from 'react-icons/fi';
+import LiquidEther from '../components/LiquidEther';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
@@ -27,21 +27,25 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12">
-      <div className="absolute inset-0 overflow-hidden -z-10">
-        <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-        <div className="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 relative">
+      <div className="fixed inset-0 -z-10">
+        <LiquidEther
+          colors={['#1e40af', '#3b82f6', '#60a5fa']}
+          mouseForce={25}
+          cursorSize={120}
+          autoDemo={true}
+          autoSpeed={0.3}
+          autoIntensity={1.8}
+        />
       </div>
 
       <div className="card max-w-md w-full p-8 animate-scale-in">
         <div className="flex items-center justify-center mb-8">
-          <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl blur-lg opacity-50 animate-pulse"></div>
-            <div className="relative p-4 bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl shadow-lg">
-              <FiBook className="text-5xl text-white" />
-            </div>
-          </div>
+          <img 
+            src="/Gestionale Libreria logo.png" 
+            alt="Vellum Logo" 
+            className="w-24 h-24 object-contain"
+          />
         </div>
 
         <h1 className="text-5xl font-extrabold text-center mb-2">

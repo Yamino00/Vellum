@@ -143,7 +143,11 @@ export const AdminStats = () => {
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       <div className="w-full px-6 py-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8">Statistiche e Dashboard</h1>
+        <h1 className="text-4xl font-extrabold mb-8">
+          <span className="bg-gradient-to-r from-green-600 via-emerald-500 to-green-700 bg-clip-text text-transparent">
+            Dashboard - Statistiche
+          </span>
+        </h1>
 
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -229,7 +233,7 @@ export const AdminStats = () => {
                 <YAxis dataKey="titolo" type="category" width={150} />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="count" fill="#10B981" name="Numero Prestiti" />
+                <Bar dataKey="count" fill="#3B82F6" name="Numero Prestiti" />
               </BarChart>
             </ResponsiveContainer>
           ) : (
