@@ -16,7 +16,7 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className="glass sticky top-0 z-50 border-b border-white/20">
+    <nav className="bg-white sticky top-0 z-50 border-b border-gray-200 shadow-sm">
       <div className={userProfile?.is_admin ? "w-full px-6" : "container mx-auto px-4"}>
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="text-2xl font-bold flex items-center gap-3 hover:scale-105 transition-transform">

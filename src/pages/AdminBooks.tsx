@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { Navbar } from '../components/Navbar';
 import { supabase } from '../lib/supabase';
 import type { Book } from '../types';
-import { FiEdit2, FiTrash2, FiPlus, FiSearch, FiDownload } from 'react-icons/fi';
+import { FiEdit2, FiTrash2, FiPlus, FiSearch, FiDownload, FiRefreshCw } from 'react-icons/fi';
+import { getRandomBooksWithAllFields } from '../services/openLibraryService';
+import { translateToItalian } from '../services/deeplService';
 
 export const AdminBooks = () => {
   const navigate = useNavigate();
@@ -13,6 +15,7 @@ export const AdminBooks = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingBook, setEditingBook] = useState<Book | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [importingRandom, setImportingRandom] = useState(false);
   const [formData, setFormData] = useState({
     titolo: '',
     autore: '',
@@ -162,6 +165,74 @@ export const AdminBooks = () => {
     setIsModalOpen(true);
   };
 
+  const handleImportRandomBooks = async () => {
+    if (importingRandom) return;
+    
+    const confirmed = confirm('Vuoi importare 10 libri random da Open Library? Questa operazione potrebbe richiedere alcuni minuti.');
+    if (!confirmed) return;
+    
+    setImportingRandom(true);
+    
+    try {
+      console.log('Recupero 10 libri random da Open Library...');
+      const randomBooks = await getRandomBooksWithAllFields(10);
+      
+      if (randomBooks.length === 0) {
+        alert('Nessun libro trovato con tutti i campi richiesti. Riprova.');
+        return;
+      }
+      
+      console.log(`Trovati ${randomBooks.length} libri. Inizio traduzione...`);
+      
+      let successCount = 0;
+      let errorCount = 0;
+      
+      for (const book of randomBooks) {
+        try {
+          // Traduci titolo e descrizione
+          console.log(`Traduzione: ${book.title}`);
+          const translatedTitle = await translateToItalian(book.title);
+          const translatedDescription = await translateToItalian(book.description);
+          
+          // Inserisci nel database
+          const { error } = await supabase.from('libri').insert([{
+            titolo: translatedTitle,
+            autore: book.author,
+            anno: book.year,
+            genere: book.genre,
+            isbn: book.isbn || '',
+            cover_url: book.coverUrl,
+            descrizione: translatedDescription
+          }]);
+          
+          if (error) {
+            console.error(`Errore inserimento ${book.title}:`, error);
+            errorCount++;
+          } else {
+            console.log(`✓ Importato: ${translatedTitle}`);
+            successCount++;
+          }
+          
+          // Piccola pausa tra le richieste per non sovraccaricare l'API
+          await new Promise(resolve => setTimeout(resolve, 500));
+          
+        } catch (error) {
+          console.error(`Errore durante l'importazione di ${book.title}:`, error);
+          errorCount++;
+        }
+      }
+      
+      alert(`Importazione completata!\n\nLibri importati con successo: ${successCount}\nErrori: ${errorCount}`);
+      fetchBooks();
+      
+    } catch (error) {
+      console.error('Errore durante l\'importazione random:', error);
+      alert('Errore durante l\'importazione dei libri. Controlla la console per i dettagli.');
+    } finally {
+      setImportingRandom(false);
+    }
+  };
+
   const filteredBooks = books.filter(
     (book) =>
       book.titolo.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -186,11 +257,26 @@ export const AdminBooks = () => {
       <div className="w-full px-6 py-8">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-4xl font-extrabold">
-            <span className="bg-gradient-to-r from-violet-600 via-purple-500 to-violet-700 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-violet-600 via-purple-500 to-violet-700 bg-clip-text text-transparent">
               Gestione Libri
             </span>
           </h1>
           <div className="flex gap-3">
+            <button
+              onClick={handleImportRandomBooks}
+              disabled={importingRandom}
+              className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
+            >
+              {importingRandom ? (
+                <>
+                  <FiRefreshCw className="animate-spin" /> Importazione...
+                </>
+              ) : (
+                <>
+                  <FiRefreshCw /> Importa 10 Random
+                </>
+              )}
+            </button>
             <button
               onClick={() => navigate('/admin/import-books')}
               className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center gap-2"

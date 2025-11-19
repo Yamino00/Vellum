@@ -96,3 +96,86 @@ export const getBookDescription = async (workKey: string): Promise<string | null
     return null;
   }
 };
+
+export interface CompleteBook {
+  title: string;
+  author: string;
+  year: number;
+  genre: string;
+  coverUrl: string;
+  description: string;
+  isbn?: string;
+}
+
+export const getRandomBooksWithAllFields = async (count: number = 10): Promise<CompleteBook[]> => {
+  const completeBooks: CompleteBook[] = [];
+  const subjects = [
+    'fiction', 'romance', 'thriller', 'fantasy', 'science fiction',
+    'mystery', 'horror', 'adventure', 'classic', 'historical fiction',
+    'drama', 'biography', 'philosophy', 'poetry', 'detective'
+  ];
+  
+  let attempts = 0;
+  const maxAttempts = 100;
+  
+  while (completeBooks.length < count && attempts < maxAttempts) {
+    attempts++;
+    
+    try {
+      // Seleziona un genere random
+      const randomSubject = subjects[Math.floor(Math.random() * subjects.length)];
+      const randomOffset = Math.floor(Math.random() * 100);
+      
+      const params = new URLSearchParams({
+        subject: randomSubject,
+        limit: '20',
+        offset: randomOffset.toString(),
+        fields: 'key,title,author_name,first_publish_year,isbn,subject,cover_i,language'
+      });
+      
+      const response = await fetch(`${BASE_URL}/search.json?${params.toString()}`);
+      if (!response.ok) continue;
+      
+      const data = await response.json();
+      const books = data.docs || [];
+      
+      // Filtra libri con tutti i campi necessari
+      for (const book of books) {
+        if (completeBooks.length >= count) break;
+        
+        // Verifica che abbia tutti i campi richiesti
+        if (!book.title || !book.author_name || !book.first_publish_year || 
+            !book.cover_i || !book.subject || !book.key) {
+          continue;
+        }
+        
+        // Prendi la descrizione
+        const description = await getBookDescription(book.key);
+        if (!description || description.length < 50) continue;
+        
+        // Ottieni l'URL della copertina
+        const coverUrl = getCoverUrl(book.cover_i, 'L');
+        if (!coverUrl) continue;
+        
+        // Estrai il genere principale
+        const genre = book.subject[0] || randomSubject;
+        
+        completeBooks.push({
+          title: book.title,
+          author: book.author_name[0],
+          year: book.first_publish_year,
+          genre: genre,
+          coverUrl: coverUrl,
+          description: description,
+          isbn: book.isbn?.[0]
+        });
+      }
+      
+    } catch (error) {
+      console.error('Errore nel recupero dei libri random:', error);
+      continue;
+    }
+  }
+  
+  return completeBooks;
+};

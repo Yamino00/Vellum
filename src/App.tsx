@@ -5,6 +5,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { ClientHome } from './pages/ClientHome';
+import { ClientLoans } from './pages/ClientLoans';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { AdminBooks } from './pages/AdminBooks';
 import { AdminUsers } from './pages/AdminUsers';
@@ -33,6 +34,15 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             {userProfile?.is_admin ? <Navigate to="/admin" replace /> : <ClientHome />}
+          </ProtectedRoute>
+        }
+      />
+      
+      <Route
+        path="/my-loans"
+        element={
+          <ProtectedRoute>
+            <ClientLoans />
           </ProtectedRoute>
         }
       />

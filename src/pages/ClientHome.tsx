@@ -87,7 +87,7 @@ export const ClientHome = () => {
     image: book.cover_url || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="512" height="512"%3E%3Crect fill="%231e293b" width="512" height="512"/%3E%3Ctext x="50%25" y="50%25" font-size="48" fill="%23fff" text-anchor="middle" dy=".3em"%3ELibro%3C/text%3E%3C/svg%3E',
     link: `#book-${book.id}`,
     title: book.titolo,
-    description: book.descrizione || `${book.autore} - ${book.anno}`
+    description: `${book.autore} • ${book.anno} • ${book.genere}`
   }));
 
   if (loading) {
@@ -117,13 +117,8 @@ export const ClientHome = () => {
     <div className="min-h-screen bg-linear-to-br from-slate-900 via-blue-900 to-slate-900">
       <Navbar />
       <div className="w-full h-screen flex flex-col">
-        <div className="px-4 py-6 bg-black/20 backdrop-blur-sm">
+        <div className="px-4 py-4 bg-slate-900 shadow-lg">
           <div className="container mx-auto">
-            <div className="mb-4">
-              <h1 className="text-4xl font-bold text-white mb-2 drop-shadow-lg">Catalogo Libri</h1>
-              <p className="text-gray-300">Esplora la nostra collezione in 3D</p>
-            </div>
-
             <div className="flex flex-col md:flex-row gap-4">
               <div className="relative flex-1">
                 <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl" />
