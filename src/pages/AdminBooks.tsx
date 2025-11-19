@@ -12,12 +12,15 @@ export const AdminBooks = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingBook, setEditingBook] = useState<Book | null>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [formData, setFormData] = useState({
     titolo: '',
     autore: '',
     anno: new Date().getFullYear(),
     genere: '',
     isbn: '',
+    cover_url: '',
+    descrizione: '',
   });
 
   useEffect(() => {
@@ -75,6 +78,8 @@ export const AdminBooks = () => {
       anno: book.anno,
       genere: book.genere,
       isbn: book.isbn,
+      cover_url: book.cover_url || '',
+      descrizione: book.descrizione || '',
     });
     setIsModalOpen(true);
   };
@@ -93,6 +98,52 @@ export const AdminBooks = () => {
     }
   };
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Verifica che sia un'immagine
+    if (!file.type.startsWith('image/')) {
+      alert('Per favore seleziona un file immagine');
+      return;
+    }
+
+    // Verifica dimensione (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      alert('L\'immagine deve essere inferiore a 5MB');
+      return;
+    }
+
+    setUploadingImage(true);
+
+    try {
+      // Genera un nome file unico
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+      const filePath = `book-covers/${fileName}`;
+
+      // Carica il file su Supabase Storage
+      const { error: uploadError } = await supabase.storage
+        .from('covers')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      // Ottieni l'URL pubblico
+      const { data } = supabase.storage
+        .from('covers')
+        .getPublicUrl(filePath);
+
+      // Aggiorna il form con l'URL
+      setFormData({ ...formData, cover_url: data.publicUrl });
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('Errore durante il caricamento dell\'immagine. Assicurati che il bucket "covers" sia stato creato in Supabase Storage.');
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
   const resetForm = () => {
     setFormData({
       titolo: '',
@@ -100,6 +151,8 @@ export const AdminBooks = () => {
       anno: new Date().getFullYear(),
       genere: '',
       isbn: '',
+      cover_url: '',
+      descrizione: '',
     });
   };
 
@@ -247,8 +300,8 @@ export const AdminBooks = () => {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
+          <div className="bg-white rounded-lg p-6 w-full max-w-2xl my-8">
             <h2 className="text-2xl font-bold mb-4">
               {editingBook ? 'Modifica Libro' : 'Aggiungi Libro'}
             </h2>
@@ -320,6 +373,80 @@ export const AdminBooks = () => {
                   onChange={(e) => setFormData({ ...formData, isbn: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Copertina
+                </label>
+                
+                {/* Carica File */}
+                <div className="mb-3">
+                  <label className="block">
+                    <span className="sr-only">Scegli file immagine</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      disabled={uploadingImage}
+                      className="block w-full text-sm text-gray-500
+                        file:mr-4 file:py-2 file:px-4
+                        file:rounded-lg file:border-0
+                        file:text-sm file:font-semibold
+                        file:bg-blue-50 file:text-blue-700
+                        hover:file:bg-blue-100
+                        disabled:opacity-50 disabled:cursor-not-allowed"
+                    />
+                  </label>
+                  {uploadingImage && (
+                    <p className="text-sm text-blue-600 mt-1">Caricamento in corso...</p>
+                  )}
+                </div>
+
+                {/* Oppure URL */}
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-gray-300"></div>
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-2 bg-white text-gray-500">oppure inserisci URL</span>
+                  </div>
+                </div>
+
+                <input
+                  type="url"
+                  value={formData.cover_url}
+                  onChange={(e) => setFormData({ ...formData, cover_url: e.target.value })}
+                  className="mt-3 w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="https://esempio.com/copertina.jpg"
+                />
+                
+                {formData.cover_url && (
+                  <div className="mt-3">
+                    <p className="text-sm text-gray-600 mb-2">Anteprima:</p>
+                    <img
+                      src={formData.cover_url}
+                      alt="Anteprima copertina"
+                      className="w-32 h-48 object-cover rounded-lg shadow-md"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Descrizione
+                </label>
+                <textarea
+                  value={formData.descrizione}
+                  onChange={(e) => setFormData({ ...formData, descrizione: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  rows={4}
+                  placeholder="Descrizione del libro..."
                 />
               </div>
 

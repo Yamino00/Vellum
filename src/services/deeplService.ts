@@ -1,37 +1,37 @@
+import { supabase } from '../lib/supabase';
+
 const DEEPL_API_KEY = import.meta.env.VITE_DEEPL_API_KEY;
-const DEEPL_API_URL = 'https://api-free.deepl.com/v2/translate';
 
 export const translateToItalian = async (text: string): Promise<string> => {
-  if (!DEEPL_API_KEY) {
-    console.warn('DeepL API key non configurata, restituisco testo originale');
-    return text;
-  }
-
   if (!text || text.trim() === '') {
     return '';
   }
 
+  console.log('Invio richiesta di traduzione tramite Supabase Edge Function...');
+
   try {
-    const response = await fetch(DEEPL_API_URL, {
-      method: 'POST',
-      headers: {
-        'Authorization': `DeepL-Auth-Key ${DEEPL_API_KEY}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({
-        text: text,
-        target_lang: 'IT',
-      }),
+    // Usa la Edge Function di Supabase per bypassare CORS
+    const { data, error } = await supabase.functions.invoke('translate', {
+      body: { text, target_lang: 'IT' }
     });
 
-    if (!response.ok) {
-      throw new Error(`Errore DeepL API: ${response.status}`);
+    if (error) {
+      console.error('Errore nella chiamata Edge Function:', error);
+      throw error;
     }
 
-    const data = await response.json();
-    return data.translations[0]?.text || text;
+    if (data?.error) {
+      console.error('Errore DeepL API tramite Edge Function:', data.error);
+      throw new Error(data.error);
+    }
+
+    const translatedText = data?.translatedText || text;
+    console.log('Traduzione completata con successo');
+    console.log('Lingua rilevata:', data?.detectedSourceLang);
+    return translatedText;
   } catch (error) {
     console.error('Errore nella traduzione:', error);
+    console.warn('Uso il testo originale senza traduzione');
     // In caso di errore, restituisci il testo originale
     return text;
   }

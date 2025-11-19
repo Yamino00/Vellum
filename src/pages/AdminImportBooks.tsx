@@ -30,10 +30,18 @@ export default function AdminImportBooks() {
     try {
       // Recupera la descrizione dal work
       let description = await getBookDescription(book.key);
+      console.log('Descrizione originale:', description?.substring(0, 100));
       
       // Traduci la descrizione in italiano se esiste
       if (description) {
-        description = await translateToItalian(description);
+        try {
+          const translatedDescription = await translateToItalian(description);
+          console.log('Descrizione tradotta:', translatedDescription?.substring(0, 100));
+          description = translatedDescription;
+        } catch (translateError) {
+          console.error('Errore nella traduzione:', translateError);
+          // Continua con la descrizione originale se la traduzione fallisce
+        }
       }
 
       // Determina il genere dal primo subject disponibile
@@ -50,6 +58,8 @@ export default function AdminImportBooks() {
         cover_url: getCoverUrl(book.cover_i, 'L') || null,
         disponibile: true,
       };
+
+      console.log('Dati libro da salvare:', { ...bookData, descrizione: bookData.descrizione?.substring(0, 100) });
 
       // Inserisci nel database
       const { error } = await supabase
@@ -146,13 +156,39 @@ export default function AdminImportBooks() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Genere
                 </label>
-                <input
-                  type="text"
+                <select
                   value={filters.genre || ''}
                   onChange={(e) => setFilters({ ...filters, genre: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="es. Fantasy"
-                />
+                >
+                  <option value="">Tutti i generi</option>
+                  <option value="fiction">Fiction</option>
+                  <option value="fantasy">Fantasy</option>
+                  <option value="science_fiction">Fantascienza</option>
+                  <option value="mystery_and_detective_stories">Giallo</option>
+                  <option value="thriller">Thriller</option>
+                  <option value="romance">Romantico</option>
+                  <option value="horror">Horror</option>
+                  <option value="historical_fiction">Storico</option>
+                  <option value="humor">Umorismo</option>
+                  <option value="literature">Letteratura</option>
+                  <option value="poetry">Poesia</option>
+                  <option value="plays">Teatro</option>
+                  <option value="short_stories">Racconti</option>
+                  <option value="young_adult_fiction">Young Adult</option>
+                  <option value="juvenile_fiction">Ragazzi</option>
+                  <option value="biography">Biografia</option>
+                  <option value="autobiography">Autobiografia</option>
+                  <option value="history">Storia</option>
+                  <option value="philosophy">Filosofia</option>
+                  <option value="psychology">Psicologia</option>
+                  <option value="self-help">Self-help</option>
+                  <option value="business">Business</option>
+                  <option value="cooking">Cucina</option>
+                  <option value="art">Arte</option>
+                  <option value="music">Musica</option>
+                  <option value="photography">Fotografia</option>
+                </select>
               </div>
             </div>
 

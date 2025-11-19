@@ -50,20 +50,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const loadUserProfile = async (userId: string) => {
     try {
+      console.log('🔍 Caricamento profilo per userId:', userId);
+      
       // Forza il ricaricamento dal database (no cache)
       const { data, error } = await supabase
         .from('utenti')
         .select('*')
         .eq('id', userId)
-        .single();
+        .maybeSingle(); // Usa maybeSingle invece di single per evitare errori se non trova il record
 
-      if (error) throw error;
-      setUserProfile(data);
+      console.log('📥 Risposta database:', { data, error });
+
+      if (error) {
+        console.error('❌ Errore nel caricamento profilo:', error);
+        throw error;
+      }
       
-      // Debug: mostra il profilo caricato
-      console.log('Profilo utente caricato:', data);
+      if (data) {
+        console.log('✅ Profilo caricato:', data);
+        console.log('🔐 is_admin:', data.is_admin);
+        setUserProfile(data);
+      } else {
+        console.warn('⚠️ Nessun profilo trovato per questo utente');
+        setUserProfile(null);
+      }
     } catch (error) {
       console.error('Error loading user profile:', error);
+      setUserProfile(null);
     } finally {
       setLoading(false);
     }
