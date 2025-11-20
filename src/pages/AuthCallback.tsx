@@ -142,7 +142,7 @@ export const AuthCallback = () => {
         
         if (userData.is_admin) {
           console.log('AuthCallback: Admin user, redirecting to admin dashboard');
-          navigate('/admin/dashboard');
+          navigate('/admin');
         } else {
           console.log('AuthCallback: Regular user, redirecting to home');
           navigate('/');
