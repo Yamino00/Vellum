@@ -186,7 +186,7 @@ export const AdminStats = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="count" fill="#3B82F6" name="Numero Prestiti" />
+                <Bar dataKey="count" fill="#10B981" name="Numero Prestiti" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -236,7 +236,7 @@ export const AdminStats = () => {
                 <YAxis dataKey="titolo" type="category" width={150} />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="count" fill="#3B82F6" name="Numero Prestiti" />
+                <Bar dataKey="count" fill="#10B981" name="Numero Prestiti" />
               </BarChart>
             </ResponsiveContainer>
           ) : (
