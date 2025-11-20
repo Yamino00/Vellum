@@ -68,10 +68,10 @@ export const AdminDashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               <Link to="/admin/books" className="card-hover p-6 group animate-scale-in">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-700 group-hover:text-blue-600 transition-colors">
+                  <h3 className="text-lg font-semibold text-gray-700 group-hover:text-violet-600 transition-colors">
                     Libri Totali
                   </h3>
-                  <div className="p-3 bg-linear-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg group-hover:shadow-glow transition-shadow">
+                  <div className="p-3 bg-linear-to-br from-violet-500 to-violet-600 rounded-xl shadow-lg group-hover:shadow-glow transition-shadow">
                     <FiBook className="text-3xl text-white" />
                   </div>
                 </div>
@@ -83,10 +83,10 @@ export const AdminDashboard = () => {
 
               <Link to="/admin/users" className="card-hover p-6 group animate-scale-in" style={{ animationDelay: '0.1s' }}>
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-700 group-hover:text-green-600 transition-colors">
+                  <h3 className="text-lg font-semibold text-gray-700 group-hover:text-pink-600 transition-colors">
                     Utenti
                   </h3>
-                  <div className="p-3 bg-linear-to-br from-green-500 to-green-600 rounded-xl shadow-lg group-hover:shadow-glow transition-shadow">
+                  <div className="p-3 bg-linear-to-br from-pink-500 to-pink-600 rounded-xl shadow-lg group-hover:shadow-glow transition-shadow">
                     <FiUsers className="text-3xl text-white" />
                   </div>
                 </div>
@@ -96,10 +96,10 @@ export const AdminDashboard = () => {
 
               <Link to="/admin/loans" className="card-hover p-6 group animate-scale-in" style={{ animationDelay: '0.2s' }}>
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-700 group-hover:text-purple-600 transition-colors">
+                  <h3 className="text-lg font-semibold text-gray-700 group-hover:text-orange-600 transition-colors">
                     Prestiti Attivi
                   </h3>
-                  <div className="p-3 bg-linear-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg group-hover:shadow-glow transition-shadow">
+                  <div className="p-3 bg-linear-to-br from-orange-500 to-orange-600 rounded-xl shadow-lg group-hover:shadow-glow transition-shadow">
                     <FiClipboard className="text-3xl text-white" />
                   </div>
                 </div>
@@ -109,10 +109,10 @@ export const AdminDashboard = () => {
 
               <Link to="/admin/stats" className="card-hover p-6 group animate-scale-in" style={{ animationDelay: '0.3s' }}>
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-700 group-hover:text-orange-600 transition-colors">
+                  <h3 className="text-lg font-semibold text-gray-700 group-hover:text-green-600 transition-colors">
                     Statistiche
                   </h3>
-                  <div className="p-3 bg-linear-to-br from-orange-500 to-orange-600 rounded-xl shadow-lg group-hover:shadow-glow transition-shadow">
+                  <div className="p-3 bg-linear-to-br from-green-500 to-green-600 rounded-xl shadow-lg group-hover:shadow-glow transition-shadow">
                     <FiBarChart2 className="text-3xl text-white" />
                   </div>
                 </div>
@@ -126,39 +126,39 @@ export const AdminDashboard = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Link
                   to="/admin/books"
-                  className="group flex items-center gap-4 p-5 border-2 border-blue-200 rounded-xl hover:bg-blue-50 hover:border-blue-400 transition-all hover:shadow-md"
+                  className="group flex items-center gap-4 p-5 border-2 border-violet-200 rounded-xl hover:bg-violet-50 hover:border-violet-400 transition-all hover:shadow-md"
                 >
-                  <div className="p-3 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
-                    <FiBook className="text-2xl text-blue-600" />
+                  <div className="p-3 bg-violet-100 rounded-lg group-hover:bg-violet-200 transition-colors">
+                    <FiBook className="text-2xl text-violet-600" />
                   </div>
                   <div>
-                    <p className="font-bold text-gray-800 group-hover:text-blue-600 transition-colors">Gestisci Libri</p>
+                    <p className="font-bold text-gray-800 group-hover:text-violet-600 transition-colors">Gestisci Libri</p>
                     <p className="text-sm text-gray-600">Aggiungi o modifica libri</p>
                   </div>
                 </Link>
 
                 <Link
                   to="/admin/loans"
-                  className="group flex items-center gap-4 p-5 border-2 border-purple-200 rounded-xl hover:bg-purple-50 hover:border-purple-400 transition-all hover:shadow-md"
+                  className="group flex items-center gap-4 p-5 border-2 border-orange-200 rounded-xl hover:bg-orange-50 hover:border-orange-400 transition-all hover:shadow-md"
                 >
-                  <div className="p-3 bg-purple-100 rounded-lg group-hover:bg-purple-200 transition-colors">
-                    <FiClipboard className="text-2xl text-purple-600" />
+                  <div className="p-3 bg-orange-100 rounded-lg group-hover:bg-orange-200 transition-colors">
+                    <FiClipboard className="text-2xl text-orange-600" />
                   </div>
                   <div>
-                    <p className="font-bold text-gray-800 group-hover:text-purple-600 transition-colors">Nuovo Prestito</p>
+                    <p className="font-bold text-gray-800 group-hover:text-orange-600 transition-colors">Nuovo Prestito</p>
                     <p className="text-sm text-gray-600">Crea un nuovo prestito</p>
                   </div>
                 </Link>
 
                 <Link
                   to="/admin/stats"
-                  className="group flex items-center gap-4 p-5 border-2 border-orange-200 rounded-xl hover:bg-orange-50 hover:border-orange-400 transition-all hover:shadow-md"
+                  className="group flex items-center gap-4 p-5 border-2 border-green-200 rounded-xl hover:bg-green-50 hover:border-green-400 transition-all hover:shadow-md"
                 >
-                  <div className="p-3 bg-orange-100 rounded-lg group-hover:bg-orange-200 transition-colors">
-                    <FiBarChart2 className="text-2xl text-orange-600" />
+                  <div className="p-3 bg-green-100 rounded-lg group-hover:bg-green-200 transition-colors">
+                    <FiBarChart2 className="text-2xl text-green-600" />
                   </div>
                   <div>
-                    <p className="font-bold text-gray-800 group-hover:text-orange-600 transition-colors">Vedi Statistiche</p>
+                    <p className="font-bold text-gray-800 group-hover:text-green-600 transition-colors">Vedi Statistiche</p>
                     <p className="text-sm text-gray-500">Analisi e report</p>
                   </div>
                 </Link>
