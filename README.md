@@ -10,7 +10,6 @@
 [![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
 [![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
 
-[Demo Live](https://your-demo-url.vercel.app) • [Documentazione](./GUIDA_SETUP.md) • [Report Bug](https://github.com/Yamino00/MyLibrary/issues)
 
 ---
 
