@@ -79,8 +79,8 @@
 
 **1️⃣ Clona il repository**
 ```bash
-git clone https://github.com/Yamino00/MyLibrary.git
-cd MyLibrary
+git clone https://github.com/Yamino00/Vellum.git
+cd Vellum
 ```
 
 **2️⃣ Installa le dipendenze**
@@ -189,7 +189,7 @@ Per una guida dettagliata su configurazione Supabase, migrations e deploy:
 ## 📁 Architettura del Progetto
 
 ```
-MyLibrary/
+Vellum/
 │
 ├── 📂 src/
 │   ├── 🎨 components/          # Componenti riutilizzabili
@@ -385,7 +385,7 @@ WHERE email = 'tuo-email@example.com';
 
 <div align="center">
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Yamino00/MyLibrary)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Yamino00/Vellum)
 
 </div>
 
@@ -396,7 +396,7 @@ WHERE email = 'tuo-email@example.com';
 
 **1. Collega Repository GitHub**
 ```bash
-git remote add origin https://github.com/Yamino00/MyLibrary.git
+git remote add origin https://github.com/Yamino00/Vellum.git
 git push -u origin main
 ```
 
